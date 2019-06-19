@@ -41,6 +41,10 @@
 		C33AEE2E22851B9900EC07AC /* CameraViewController_video.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AEE2C22851B9900EC07AC /* CameraViewController_video.m */; };
 		C33AEE3122851BDE00EC07AC /* StitchManager_video.mm in Sources */ = {isa = PBXBuildFile; fileRef = C33AEE3022851BDE00EC07AC /* StitchManager_video.mm */; };
 		C386B27C228523C600E0FC18 /* MainVideo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C386B27B228523C600E0FC18 /* MainVideo.storyboard */; };
+		C39C9E9A22BA17020051D260 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; };
+		C39C9E9B22BA17020051D260 /* opencv2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C39C9E9C22BA17090051D260 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; };
+		C39C9E9D22BA17090051D260 /* opencv2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C3AFE48322B9E17C00485ED9 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; };
 		C3AFE48422B9E17C00485ED9 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; };
 		C3F05C732284435500540825 /* SettingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D60A8421ACC0E4007E77CA /* SettingManager.m */; };
@@ -84,6 +88,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C39C9E9D22BA17090051D260 /* opencv2.framework in Embed Frameworks */,
 				A3EA4E3E21A959C50001438A /* NYTPhotoViewer.framework in Embed Frameworks */,
 				A3EA4E4821A95F8E0001438A /* FLAnimatedImage.framework in Embed Frameworks */,
 			);
@@ -96,6 +101,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C39C9E9B22BA17020051D260 /* opencv2.framework in Embed Frameworks */,
 				C3F05C962284435500540825 /* NYTPhotoViewer.framework in Embed Frameworks */,
 				C3F05C972284435500540825 /* FLAnimatedImage.framework in Embed Frameworks */,
 			);
@@ -182,6 +188,7 @@
 				A3D60BF521AE7FA1007E77CA /* AssetsLibrary.framework in Frameworks */,
 				A3D60BF321AE7F9A007E77CA /* Accelerate.framework in Frameworks */,
 				A3D60BF121AE7CB5007E77CA /* libc++.tbd in Frameworks */,
+				C39C9E9C22BA17090051D260 /* opencv2.framework in Frameworks */,
 				A3D60BE921AE73BD007E77CA /* AVFoundation.framework in Frameworks */,
 				A3EA4E5321AA9DB50001438A /* CoreMotion.framework in Frameworks */,
 				A3EA4E4621A95F7F0001438A /* FLAnimatedImage.framework in Frameworks */,
@@ -200,6 +207,7 @@
 				C3F05C822284435500540825 /* QuartzCore.framework in Frameworks */,
 				C3F05C832284435500540825 /* CoreVideo.framework in Frameworks */,
 				C3F05C842284435500540825 /* CoreMedia.framework in Frameworks */,
+				C39C9E9A22BA17020051D260 /* opencv2.framework in Frameworks */,
 				C3F05C852284435500540825 /* CoreImage.framework in Frameworks */,
 				C3F05C862284435500540825 /* CoreGraphics.framework in Frameworks */,
 				C3F05C872284435500540825 /* AssetsLibrary.framework in Frameworks */,
@@ -765,7 +773,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_OSACOMPILEFLAGS = "stitching_photo stitching_video";
-				PRODUCT_BUNDLE_IDENTIFIER = com.imagedt.picture.stitching.first;
+				PRODUCT_BUNDLE_IDENTIFIER = com.imagedt.picture.stitching;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = arm64;
@@ -801,7 +809,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_OSACOMPILEFLAGS = "stitching_photo stitching_video";
-				PRODUCT_BUNDLE_IDENTIFIER = com.imagedt.picture.stitching.first;
+				PRODUCT_BUNDLE_IDENTIFIER = com.imagedt.picture.stitching;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = arm64;
@@ -835,7 +843,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.imagedt.picture.stitching;
+				PRODUCT_BUNDLE_IDENTIFIER = com.imagedt.picture.stitching.first;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = arm64;
@@ -870,7 +878,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.imagedt.picture.stitching;
+				PRODUCT_BUNDLE_IDENTIFIER = com.imagedt.picture.stitching.first;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = arm64;
