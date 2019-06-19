@@ -1,0 +1,20 @@
+PODS:
+  - FLEX (2.4.0)
+  - Toast (4.0.0)
+
+DEPENDENCIES:
+  - FLEX (= 2.4.0)
+  - Toast (= 4.0.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - FLEX
+    - Toast
+
+SPEC CHECKSUMS:
+  FLEX: bd1a39e55b56bb413b6f1b34b3c10a0dc44ef079
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
+
+PODFILE CHECKSUM: 5d7806a1279c737ef21c7b653feee5b8f66286af
+
+COCOAPODS: 1.5.3

@@ -1,0 +1,21 @@
+source 'https://github.com/CocoaPods/Specs.git'
+source 'https://github.com/aliyun/aliyun-specs.git'
+platform :ios, ‘9.0’
+use_frameworks!
+
+workspace 'SDKDemo.xcworkspace'
+
+
+target 'SDKDemo' do
+    
+    pod 'Toast', '4.0.0'
+    pod 'FLEX'                            , '2.4.0'
+
+end
+target 'VideoDemo' do
+    
+    pod 'Toast', '4.0.0'
+    pod 'FLEX'                            , '2.4.0'
+
+end
+
