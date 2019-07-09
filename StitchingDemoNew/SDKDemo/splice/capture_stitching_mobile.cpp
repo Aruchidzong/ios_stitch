@@ -2432,6 +2432,7 @@ void HarrisResponses(const Mat& img, std::vector<KeyPoint>& pts, int blockSize, 
 }
 
 bool set_src_feature(cv::Mat &src){
+    
     if (src.empty())
         return false;
     

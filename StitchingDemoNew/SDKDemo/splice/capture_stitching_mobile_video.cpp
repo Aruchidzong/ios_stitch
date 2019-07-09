@@ -2041,10 +2041,11 @@ bool overlap_point(cv::Mat &dst, vector<Point> &src_pnts, vector<Point> &dst_pnt
             //            tmpmatches.push_back(dmatches);
             obj_pt.push_back( src_features.keypoints[indeces_ptr[0]].pt );
             scene_pt.push_back( dst_features.keypoints[i].pt );
+            
         }
     }
     
-    if (obj_pt.size() < 50)
+    if (obj_pt.size() < 4)
         return false;
     //compute warping matrix
     std::vector<uchar> inliers_mask;
@@ -2059,7 +2060,7 @@ bool overlap_point(cv::Mat &dst, vector<Point> &src_pnts, vector<Point> &dst_pnt
     }
     
     float conf = good_num /(8 + 0.3 * (obj_pt.size()));
-    if (good_num < 10 || conf < 0.5)
+    if (good_num < 4 || conf < 0.5)
         return false;
     
     //dst points transformation

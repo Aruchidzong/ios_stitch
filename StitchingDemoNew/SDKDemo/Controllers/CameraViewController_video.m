@@ -336,7 +336,11 @@
     
     self.dataOutput = [[AVCaptureVideoDataOutput alloc] init];
     self.dataOutput.videoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)};
-    
+    NSError *error;
+    [device lockForConfiguration:&error];
+    [self.session setSessionPreset:AVCaptureSessionPresetPhoto];
+    [device unlockForConfiguration];
+
     _dataQueue = dispatch_queue_create("DataQueue", NULL);
     [self.dataOutput setSampleBufferDelegate:self queue:_dataQueue];
     if([self.session canAddOutput:self.dataOutput]){
@@ -514,17 +518,17 @@
     
     // stitch image
     __weak CameraViewController_video* weakSelf = self;
-//    [StitchManager.sharedInstance stitch:imagePath outputPath:outputPath retake:NO completionHandler:^(NSError * _Nonnull error) {
-//        if(error != nil){
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                self.captureButton.enabled = YES;
-//                self.activityIndicator.hidden = YES;
-//                [self.activityIndicator stopAnimating];
-//                self.isCapturing = NO;
-//                [weakSelf showError:error.localizedDescription];
-//            });
-//            return;
-//        }
+    [StitchManager.sharedInstance stitch:imagePath outputPath:outputPath retake:NO completionHandler:^(NSError * _Nonnull error) {
+        if(error != nil){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.captureButton.enabled = YES;
+                self.activityIndicator.hidden = YES;
+                [self.activityIndicator stopAnimating];
+                self.isCapturing = NO;
+                [weakSelf showError:error.localizedDescription];
+            });
+            return;
+        }
     
         self.currentIndex ++;
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -536,7 +540,7 @@
             self.overlayView.hidden = YES;
             [self setupPreview];
         });
-//    }];
+    }];
 }
 
 -(void)showError:(NSString*)message{
