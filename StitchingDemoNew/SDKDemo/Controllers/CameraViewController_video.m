@@ -335,7 +335,7 @@
     }
     
     self.dataOutput = [[AVCaptureVideoDataOutput alloc] init];
-    self.dataOutput.videoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)};
+    self.dataOutput.videoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)};
     NSError *error;
     [device lockForConfiguration:&error];
     [self.session setSessionPreset:AVCaptureSessionPresetPhoto];
@@ -346,6 +346,45 @@
     if([self.session canAddOutput:self.dataOutput]){
         [self.session addOutput:self.dataOutput];
     }
+    CGFloat maxPixel = 2880;
+    CGFloat rate = 0.75;
+    CGFloat distance = 9999;
+
+    AVCaptureDeviceFormat *targetFormat;
+    for (AVCaptureDeviceFormat *format in  device.formats) {
+        FourCharCode code = CMFormatDescriptionGetMediaSubType(format.formatDescription);
+        if (code == 875704438) {
+            continue;
+        }
+        
+        CMVideoDimensions dms = CMVideoFormatDescriptionGetDimensions(format.formatDescription);
+        float newRate = (float)dms.height/(float)dms.width;
+        if (fabs(rate - newRate) > 0.03) {
+            continue;
+        }
+        CGFloat tempDistance = dms.width - maxPixel;
+        if (dms.width >= maxPixel && tempDistance < distance){
+            distance = tempDistance;
+            targetFormat = format;
+            
+            if (tempDistance == 0){
+                break;
+            }
+        }
+
+
+    }
+    if (targetFormat) {
+        NSError *error;
+        [device lockForConfiguration:&error];
+        if (!error) {
+            [device setActiveFormat:targetFormat];
+            [device unlockForConfiguration];
+        }
+    }else{
+        self.session.sessionPreset = AVCaptureSessionPresetPhoto;
+    }
+
     
     _overlapQueue = dispatch_queue_create("OverlapQueue", NULL);
 
