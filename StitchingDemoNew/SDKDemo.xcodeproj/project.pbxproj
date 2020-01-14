@@ -41,6 +41,8 @@
 		C33AEE2E22851B9900EC07AC /* CameraViewController_video.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AEE2C22851B9900EC07AC /* CameraViewController_video.m */; };
 		C33AEE3122851BDE00EC07AC /* StitchManager_video.mm in Sources */ = {isa = PBXBuildFile; fileRef = C33AEE3022851BDE00EC07AC /* StitchManager_video.mm */; };
 		C386B27C228523C600E0FC18 /* MainVideo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C386B27B228523C600E0FC18 /* MainVideo.storyboard */; };
+		C38C97E323CD9FA40091FA0F /* UIImage+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = C38C97E223CD9FA40091FA0F /* UIImage+Ext.m */; };
+		C38C97E423CD9FAB0091FA0F /* UIImage+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = C38C97E223CD9FA40091FA0F /* UIImage+Ext.m */; };
 		C39C9E9A22BA17020051D260 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; };
 		C39C9E9B22BA17020051D260 /* opencv2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C39C9E9C22BA17090051D260 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; };
@@ -161,6 +163,8 @@
 		C33AEE2F22851BDE00EC07AC /* StitchManager_video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StitchManager_video.h; sourceTree = "<group>"; };
 		C33AEE3022851BDE00EC07AC /* StitchManager_video.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = StitchManager_video.mm; sourceTree = "<group>"; };
 		C386B27B228523C600E0FC18 /* MainVideo.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainVideo.storyboard; sourceTree = "<group>"; };
+		C38C97E123CD9FA40091FA0F /* UIImage+Ext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Ext.h"; sourceTree = "<group>"; };
+		C38C97E223CD9FA40091FA0F /* UIImage+Ext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Ext.m"; sourceTree = "<group>"; };
 		C3AFE48222B9E17C00485ED9 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		C3E03B55228427E90057B1F1 /* SDKDemo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = SDKDemo.xcodeproj; sourceTree = "<group>"; };
 		C3F05C9C2284435500540825 /* VideoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -338,6 +342,8 @@
 				A3EA4E5021AA9CD80001438A /* PoseManager.m */,
 				A3D60A8321ACC0E4007E77CA /* SettingManager.h */,
 				A3D60A8421ACC0E4007E77CA /* SettingManager.m */,
+				C38C97E123CD9FA40091FA0F /* UIImage+Ext.h */,
+				C38C97E223CD9FA40091FA0F /* UIImage+Ext.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -584,6 +590,7 @@
 				A3EA4E4C21AA8D100001438A /* StitchManager.mm in Sources */,
 				A3D60C5F21B94B3B007E77CA /* QualityViewController.m in Sources */,
 				A3EA4E3821A9528C0001438A /* SettingViewController.m in Sources */,
+				C38C97E323CD9FA40091FA0F /* UIImage+Ext.m in Sources */,
 				A3EA4E4221A95C4B0001438A /* SDKPhoto.m in Sources */,
 				A3EA4E3C21A959B20001438A /* FileManager.m in Sources */,
 			);
@@ -602,6 +609,7 @@
 				C3F05C772284435500540825 /* AppDelegate.m in Sources */,
 				C3F05C792284435500540825 /* QualityViewController.m in Sources */,
 				C3F05C7A2284435500540825 /* SettingViewController.m in Sources */,
+				C38C97E423CD9FAB0091FA0F /* UIImage+Ext.m in Sources */,
 				C3F05C7B2284435500540825 /* SDKPhoto.m in Sources */,
 				C3F05C7C2284435500540825 /* FileManager.m in Sources */,
 			);
@@ -766,7 +774,7 @@
 				);
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = SDKDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -801,7 +809,7 @@
 				);
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = SDKDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -837,7 +845,7 @@
 				);
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "SDKDemo copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -871,7 +879,7 @@
 				);
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "SDKDemo copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

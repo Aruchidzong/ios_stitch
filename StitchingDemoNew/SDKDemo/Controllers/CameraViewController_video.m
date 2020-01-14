@@ -16,7 +16,8 @@
 #import "PoseManager.h"
 #import "SettingManager.h"
 #import <CoreServices/CoreServices.h>
-
+#import "UIImage+Ext.h"
+#import "math.h"
 @interface CameraViewController_video ()<AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate>{
     dispatch_queue_t _dataQueue;
     dispatch_queue_t _overlapQueue;
@@ -73,7 +74,10 @@
     self.stitchQuality = [SettingManager.sharedInstance valueForKey:SETTING_IMG];
     self.stitchWarpType = [SettingManager.sharedInstance valueForKey:SETTING_WARP];
     self.stitchMaxEdge = [SettingManager.sharedInstance valueForKey:SETTING_EDGE];
-    [StitchManager.sharedInstance start:self.stitchQuality warpType:self.stitchWarpType maxEdge:self.stitchMaxEdge];
+    [StitchManager.sharedInstance resetOfLogPath:@"" completionHandler:^(bool success, NSString * _Nonnull msg) {
+        
+    }];
+//    [StitchManager.sharedInstance start:self.stitchQuality warpType:self.stitchWarpType maxEdge:self.stitchMaxEdge];
 //    __weak CameraViewController* weakSelf = self;
     self.poseManager = [[PoseManager alloc] init];
 //    self.poseManager.motionUpdate = ^(double acc) {
@@ -94,21 +98,21 @@
     self.activityIndicator.hidesWhenStopped = NO;
     self.activityIndicator.hidden = YES;
     
-    UISwipeGestureRecognizer* swipeLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeHandler:)];
-    swipeLeftRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-    [self.view addGestureRecognizer:swipeLeftRecognizer];
-
-    UISwipeGestureRecognizer* swipeDownRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeHandler:)];
-    swipeDownRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
-    [self.view addGestureRecognizer:swipeDownRecognizer];
-
-    UISwipeGestureRecognizer* swipeRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeHandler:)];
-    swipeRightRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
-    [self.view addGestureRecognizer:swipeRightRecognizer];
-
-    UISwipeGestureRecognizer* swipeUpRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeHandler:)];
-    swipeUpRecognizer.direction = UISwipeGestureRecognizerDirectionUp;
-    [self.view addGestureRecognizer:swipeUpRecognizer];
+//    UISwipeGestureRecognizer* swipeLeftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeHandler:)];
+//    swipeLeftRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+//    [self.view addGestureRecognizer:swipeLeftRecognizer];
+//
+//    UISwipeGestureRecognizer* swipeDownRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeHandler:)];
+//    swipeDownRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
+//    [self.view addGestureRecognizer:swipeDownRecognizer];
+//
+//    UISwipeGestureRecognizer* swipeRightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeHandler:)];
+//    swipeRightRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+//    [self.view addGestureRecognizer:swipeRightRecognizer];
+//
+//    UISwipeGestureRecognizer* swipeUpRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeHandler:)];
+//    swipeUpRecognizer.direction = UISwipeGestureRecognizerDirectionUp;
+//    [self.view addGestureRecognizer:swipeUpRecognizer];
 
     self.overlayView.hidden = YES;
     self.overlayView.opaque = NO;
@@ -178,7 +182,7 @@
 }
 
 -(void)dealloc{
-    [StitchManager.sharedInstance stop];
+    [StitchManager.sharedInstance stitchClean];
 }
 
 -(BOOL)prefersStatusBarHidden{
@@ -257,7 +261,7 @@
         // no picture taken, do nothing
         return;
     }
-    
+    /*
     __weak CameraViewController_video* weakSelf = self;
     [StitchManager.sharedInstance stitch:nil outputPath:nil retake:YES completionHandler:^(NSError * _Nonnull error) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -283,6 +287,7 @@
             self.overlayView.hidden = YES;
         });
     }];
+     */
 }
 
 -(IBAction)clearClicked:(id)sender{
@@ -293,7 +298,8 @@
     
     self.currentIndex = 0;
     [self.poseManager removeShoot];
-    [StitchManager.sharedInstance restart:self.stitchQuality warpType:self.stitchWarpType maxEdge:self.stitchMaxEdge];
+    [StitchManager.sharedInstance stitchClean];
+//    [StitchManager.sharedInstance restart:self.stitchQuality warpType:self.stitchWarpType maxEdge:self.stitchMaxEdge];
     [self setupPreview];
 }
 
@@ -333,12 +339,14 @@
     if([self.session canAddOutput:self.photoOutput]){
         [self.session addOutput:self.photoOutput];
     }
+    self.photoOutput.highResolutionCaptureEnabled = true;
     
     self.dataOutput = [[AVCaptureVideoDataOutput alloc] init];
     self.dataOutput.videoSettings = @{(id)kCVPixelBufferPixelFormatTypeKey: @(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)};
     NSError *error;
     [device lockForConfiguration:&error];
-    [self.session setSessionPreset:AVCaptureSessionPresetPhoto];
+//    [self.session setSessionPreset:AVCaptureSessionPresetPhoto];
+    self.session.sessionPreset = AVCaptureSessionPreset640x480;
     [device unlockForConfiguration];
 
     _dataQueue = dispatch_queue_create("DataQueue", NULL);
@@ -346,44 +354,12 @@
     if([self.session canAddOutput:self.dataOutput]){
         [self.session addOutput:self.dataOutput];
     }
-    CGFloat maxPixel = 2880;
-    CGFloat rate = 0.75;
-    CGFloat distance = 9999;
-
-    AVCaptureDeviceFormat *targetFormat;
-    for (AVCaptureDeviceFormat *format in  device.formats) {
-        FourCharCode code = CMFormatDescriptionGetMediaSubType(format.formatDescription);
-        if (code == 875704438) {
-            continue;
-        }
-        
-        CMVideoDimensions dms = CMVideoFormatDescriptionGetDimensions(format.formatDescription);
-        float newRate = (float)dms.height/(float)dms.width;
-        if (fabs(rate - newRate) > 0.03) {
-            continue;
-        }
-        CGFloat tempDistance = dms.width - maxPixel;
-        if (dms.width >= maxPixel && tempDistance < distance){
-            distance = tempDistance;
-            targetFormat = format;
-            
-            if (tempDistance == 0){
-                break;
-            }
-        }
-
-
-    }
-    if (targetFormat) {
-        NSError *error;
-        [device lockForConfiguration:&error];
-        if (!error) {
-            [device setActiveFormat:targetFormat];
-            [device unlockForConfiguration];
-        }
-    }else{
-        self.session.sessionPreset = AVCaptureSessionPresetPhoto;
-    }
+            // 获取输入与输出之间的连接
+    AVCaptureConnection *connection = [self.dataOutput connectionWithMediaType: AVMediaTypeVideo];
+    connection.videoScaleAndCropFactor = connection.videoMaxScaleAndCropFactor;
+    //         [videoOutput connectionWithMediaType:AVMediaTypeVideo];
+    //         设置采集数据的方向
+    connection.videoOrientation = AVCaptureVideoOrientationPortrait;
 
     
     _overlapQueue = dispatch_queue_create("OverlapQueue", NULL);
@@ -393,11 +369,47 @@
 
 - (void)captureOutput:(AVCaptureOutput *)output didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection{
     
-    if(!self.shouldCalcOverlap || self.isCalcOverlap || self.isCapturing){
+    if(self.isCapturing){
         // don't need to calculate overlap or it is already calculating
         return;
     }
-    
+    UIImage *img = [StitchManager.sharedInstance imageConvert:sampleBuffer scale:1.0 orientation:UIImageOrientationUp];
+    [StitchManager.sharedInstance overlapOfImage:img frameIndex:0 angle_pitch:0 angle_roll:0 angle_yaw:0 completionHandler:^(bool success, NSString * _Nonnull msg, NSArray<NSNumber *> * _Nonnull overPoint, float currentHintLinesWidth, float currentHintLinesHeight, float score) {
+        if (success && overPoint.count >= 8) {
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                CGFloat scale_x = self.previewLayer.frame.size.width / currentHintLinesWidth;
+                CGFloat scale_y = self.previewLayer.frame.size.height / currentHintLinesHeight;
+                UIBezierPath* path = [[UIBezierPath alloc] init];
+                [path moveToPoint:CGPointMake(scale_x * overPoint[0].floatValue, scale_y * overPoint[1].floatValue)];
+                [path addLineToPoint:CGPointMake(scale_x *overPoint[2].floatValue, scale_y * overPoint[3].floatValue)];
+                [path addLineToPoint:CGPointMake(scale_x *overPoint[4].floatValue, scale_y * overPoint[5].floatValue)];
+                [path addLineToPoint:CGPointMake(scale_x *overPoint[6].floatValue, scale_y * overPoint[7].floatValue)];
+                [path closePath];
+                if (score > 1.3) {
+                    self.prevOverlayLayer.path = nil;
+                    self.prevOverlayLayer.hidden = true;
+                }else if (score > 1.0) {
+                    self.prevOverlayLayer.path = path.CGPath;
+                    self.prevOverlayLayer.hidden = false;
+                    self.prevOverlayLayer.fillColor = UIColor.redColor.CGColor;
+                }else{
+                    self.prevOverlayLayer.path = path.CGPath;
+                    self.prevOverlayLayer.hidden = false;
+                    self.prevOverlayLayer.fillColor = UIColor.blueColor.CGColor;
+                }
+
+            });
+        }else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+
+                self.prevOverlayLayer.path = nil;
+                self.prevOverlayLayer.hidden = true;
+            });
+
+        }
+    }];
+    /*
     self.isCalcOverlap = YES;
     CFRetain(sampleBuffer);
     dispatch_async(_overlapQueue, ^{
@@ -442,7 +454,7 @@
         CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
         CFRelease(sampleBuffer);
         self.isCalcOverlap = NO;
-    });
+    });*/
 }
 
 - (void) setUpCameraLayer{
@@ -471,7 +483,10 @@
         _prevOverlayLayer.opacity = 0.5f;
         _prevOverlayLayer.fillColor = UIColor.blueColor.CGColor;
         _prevOverlayLayer.masksToBounds = YES;
-        [self.srcImageView.layer addSublayer:_prevOverlayLayer];
+        _prevOverlayLayer.frame = CGRectMake(0, 0, self.previewLayer.frame.size.width, self.previewLayer.frame.size.height);
+        _prevOverlayLayer.hidden = true;
+
+        [self.previewLayer addSublayer:_prevOverlayLayer];
     }
     return _prevOverlayLayer;
 }
@@ -493,7 +508,7 @@
         CGFloat top = self.view.frame.size.height * 0.15;
         CGFloat subwidth = self.view.frame.size.width/2;
         CGFloat subheight = subwidth * img.size.height / img.size.width;
-        self.previewLayer.frame = CGRectMake(subwidth, top, subwidth, subheight);
+//        self.previewLayer.frame = CGRectMake(subwidth, top, subwidth, subheight);
         
         self.srcImageView.frame = CGRectMake(0, top, subwidth, subheight);
         self.srcImageView.image = img;
@@ -501,23 +516,23 @@
         self.srcImageView.clipsToBounds = YES;
         self.shouldCalcOverlap = YES;
         
-        dispatch_async(_overlapQueue, ^{
-            NSString* imgPath = [FileManager.sharedInstance pathForImageAtIndex:self.currentIndex-1];
-            if(![StitchManager.sharedInstance setOverlapSrc:imgPath]){
-                NSLog(@"setOverlapSrc failed.");
-            }
-        });
+//        dispatch_async(_overlapQueue, ^{
+//            NSString* imgPath = [FileManager.sharedInstance pathForImageAtIndex:self.currentIndex-1];
+//            if(![StitchManager.sharedInstance setOverlapSrc:imgPath]){
+//                NSLog(@"setOverlapSrc failed.");
+//            }
+//        });
         
-        _prevOverlayLayer.frame = CGRectMake(0, 0, subwidth, subheight);
+//        _prevOverlayLayer.frame = CGRectMake(0, 0, subwidth, subheight);
         _currOverlayLayer.frame = CGRectMake(0, 0, subwidth, subheight);
     }
     else{
-        self.previewLayer.frame = self.view.bounds;
+        self.previewLayer.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width*4/3);
+//        self.previewLayer.frame = self.view.bounds;
         self.srcImageView.hidden = YES;
         self.shouldCalcOverlap = NO;
     }
     
-    self.prevOverlayLayer.hidden = YES;
     self.currOverlayLayer.hidden = YES;
 }
 
@@ -538,48 +553,68 @@
 //        }
 //    }
     // start photo capture
-    self.isCapturing = YES;
     self.captureButton.enabled = NO;
     self.activityIndicator.hidden = NO;
     [self.activityIndicator startAnimating];
-    AVCapturePhotoSettings* photoSettings = AVCapturePhotoSettings.photoSettings;
+//    AVCapturePhotoSettings* photoSettings = AVCapturePhotoSettings.photoSettings;
+    AVCapturePhotoSettings* photoSettings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey:AVVideoCodecTypeJPEG}];
+    [photoSettings setHighResolutionPhotoEnabled:true];
     [self.photoOutput capturePhotoWithSettings:photoSettings delegate:self];
 }
 
 -(void)captureOutput:(AVCapturePhotoOutput *)output didFinishProcessingPhoto:(AVCapturePhoto *)photo error:(NSError *)error{
     int index = self.currentIndex;
+    
+    
+    UIImage *image = [[UIImage alloc] initWithData:photo.fileDataRepresentation];
+    UIImage *realImg = [image scaleTo:640];
 
     // save image
     [FileManager.sharedInstance saveImageData:photo.fileDataRepresentation atIndex:index];
     
-    NSString* imagePath = [FileManager.sharedInstance pathForImageAtIndex:index];
+//    NSString* imagePath = [FileManager.sharedInstance pathForImageAtIndex:index];
     NSString* outputPath = [FileManager.sharedInstance pathForPanoImageAtIndex:index];
-    
-    // stitch image
+    self.isCapturing = YES;
+
     __weak CameraViewController_video* weakSelf = self;
-    [StitchManager.sharedInstance stitch:imagePath outputPath:outputPath retake:NO completionHandler:^(NSError * _Nonnull error) {
-        if(error != nil){
+    [StitchManager.sharedInstance stitchOfImage:realImg angle_pitch:0 angle_roll:0 angle_yaw:0 logPath:@"" panoPath:@"" completionHandler:^(bool success, NSString * _Nonnull msg, UIImage * _Nonnull panoImg, int bestPOV, NSArray * _Nonnull homography) {
+        if (success) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.captureButton.enabled = YES;
-                self.activityIndicator.hidden = YES;
-                [self.activityIndicator stopAnimating];
-                self.isCapturing = NO;
-                [weakSelf showError:error.localizedDescription];
+                weakSelf.panoImage = [UIImage imageWithContentsOfFile:outputPath];
+                weakSelf.captureButton.enabled = YES;
+                weakSelf.activityIndicator.hidden = YES;
+                [weakSelf.activityIndicator stopAnimating];
+                weakSelf.overlayView.hidden = YES;
+                [weakSelf setupPreview];
             });
-            return;
         }
-    
-        self.currentIndex ++;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.panoImage = [UIImage imageWithContentsOfFile:outputPath];
-            self.captureButton.enabled = YES;
-            self.activityIndicator.hidden = YES;
-            [self.activityIndicator stopAnimating];
-            self.isCapturing = NO;
-            self.overlayView.hidden = YES;
-            [self setupPreview];
-        });
+        weakSelf.isCapturing = NO;
+
     }];
+    // stitch image
+//    [StitchManager.sharedInstance stitch:imagePath outputPath:outputPath retake:NO completionHandler:^(NSError * _Nonnull error) {
+//        if(error != nil){
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                self.captureButton.enabled = YES;
+//                self.activityIndicator.hidden = YES;
+//                [self.activityIndicator stopAnimating];
+//                self.isCapturing = NO;
+//                [weakSelf showError:error.localizedDescription];
+//            });
+//            return;
+//        }
+//
+//        self.currentIndex ++;
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            self.panoImage = [UIImage imageWithContentsOfFile:outputPath];
+//            self.captureButton.enabled = YES;
+//            self.activityIndicator.hidden = YES;
+//            [self.activityIndicator stopAnimating];
+//            self.isCapturing = NO;
+//            self.overlayView.hidden = YES;
+//            [self setupPreview];
+//        });
+//    }];
 }
 
 -(void)showError:(NSString*)message{

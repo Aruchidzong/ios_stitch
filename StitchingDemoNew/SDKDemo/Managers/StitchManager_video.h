@@ -8,23 +8,58 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
+#import <CoreVideo/CoreVideo.h>
+#import <CoreServices/CoreServices.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface StitchManager : NSObject
 
 + (instancetype)sharedInstance;
+- (UIImage *)imageConvert:(CMSampleBufferRef)sampleBuffer scale:(float)scale orientation:(UIImageOrientation)orientation;
+//planA
+-(void)overlapOfImage:(UIImage*)image0
+       frameIndex:(int)frameIndex
+      angle_pitch:(float)pitch
+       angle_roll:(float)roll
+        angle_yaw:(float)yaw
+completionHandler:(void(^)(bool success,
+                           NSString* msg,
+                           NSArray<NSNumber*> *overPoint,
+                           float currentHintLinesWidth,
+                           float currentHintLinesHeight,
+                           float score))handler;
+-(void)overlapOfBuffer:(CMSampleBufferRef)sampleBuffer
+       frameIndex:(int)frameIndex
+      angle_pitch:(float)pitch
+       angle_roll:(float)roll
+        angle_yaw:(float)yaw
+completionHandler:(void(^)(bool success,
+                           NSString* msg,
+                           NSArray<NSNumber*> *overPoint,
+                           float currentHintLinesWidth,
+                           float currentHintLinesHeight,
+                           float score))handler;
 
--(void)start:(int)quality warpType:(int)warpType maxEdge:(int)maxEdge;
--(void)restart:(int)quality warpType:(int)warpType maxEdge:(int)maxEdge;
--(void)stitch:(nullable NSString*)imagePath outputPath:(nullable NSString*)outputPath retake:(BOOL)retake completionHandler:(void(^)(NSError*))handler;
--(void)stop;
-
--(BOOL)setOverlapSrc:(nullable NSString*)imagePath;
--(BOOL)calcOverlap:(uint8_t*)imageData width:(int)width height:(int)height points:(float*)points;
-
--(void)saveImage:(uint8_t*)data width:(int)width height:(int)height;
-
+-(void)stitchOfImage:(UIImage*)image
+         angle_pitch:(float)pitch
+          angle_roll:(float)roll
+           angle_yaw:(float)yaw
+             logPath:(NSString*)log
+            panoPath:(NSString*)pano
+   completionHandler:(void(^)(bool success,
+                              NSString* msg,
+                              UIImage *panoImg,
+                              int bestPOV,
+                              NSArray *homography))handler;
+-(void)delLastOfCompletionHandler:(void(^)(bool success,
+                                           NSString* msg))handler;
+-(void)resetOfLogPath:(NSString*)log
+    completionHandler:(void(^)(bool success,
+                               NSString* msg))handler;
+-(void)stitchClean;
 @end
+
 
 NS_ASSUME_NONNULL_END
