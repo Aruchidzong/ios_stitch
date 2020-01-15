@@ -19,9 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 -(BOOL)saveImage:(UIImage*)image atItemId:(NSString*)_id atIndex:(int)index;
 -(BOOL)saveImageData:(NSData*)data atIndex:(int)index;
 -(BOOL)savePanoImage:(UIImage*)image atIndex:(int)index;
-
 -(UIImage*)imageAtIndex:(int)index;
 -(UIImage*)panoImageAtIndex:(int)index;
+-(NSString*)pathForLogAtIndex:(int)index;
 
 -(NSString*)pathForLogWithFolder:(NSString*)folder itemId:(NSString*)_id;
 -(NSString*)pathForImageAtIndex:(int)index;

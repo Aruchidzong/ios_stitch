@@ -13,6 +13,7 @@
 @property (nonatomic, strong) NSFileManager* fileManager;
 @property (nonatomic, strong) NSURL* folder;
 @property (nonatomic, strong) NSURL* panoFolder;
+@property (nonatomic, strong) NSURL* logFolder;
 //@property (nonatomic, strong) NSURL* logFolder;
 
 @end
@@ -39,8 +40,10 @@
         NSString *documents = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
         NSString *folderPath = [documents stringByAppendingPathComponent:@"stitching/imgs"];
         NSString *panoFolderPath = [documents stringByAppendingPathComponent:@"stitching/pano"];
-        
+        NSString *logFolderPath = [documents stringByAppendingPathComponent:@"stitching/log"];
+
         self.panoFolder = [self checkPath:panoFolderPath];
+        self.logFolder = [self checkPath:logFolderPath];
         self.folder = [self checkPath:folderPath];
         //        NSString *logFolderPath = [documents stringByAppendingPathComponent:@"stitching/log"];
         //        self.logFolder = [self checkPath:logFolderPath];
@@ -74,6 +77,11 @@
 -(NSString*)pathForPanoImageAtIndex:(int)index{
     NSString* filename = [NSString stringWithFormat:@"pano%d.jpg", index];
     NSURL* url = [self.panoFolder URLByAppendingPathComponent:filename];
+    return url.path;
+}
+-(NSString*)pathForLogAtIndex:(int)index{
+    NSString* filename = [NSString stringWithFormat:@"log%d.txt", index];
+    NSURL* url = [self.logFolder URLByAppendingPathComponent:filename];
     return url.path;
 }
 -(NSString*)pathForImageAtItemId:(NSString*)_id atIndex:(int)index{

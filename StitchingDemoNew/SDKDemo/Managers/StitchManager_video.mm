@@ -359,9 +359,9 @@ bool YV12ToBGR24_OpenCV(unsigned char* pYUV,unsigned char* pBGR24,int width,int 
         for (int i = 0; i < 9 ; i++) {
             [list addObject:[[NSNumber alloc] initWithDouble:homo[i]]];
         }
-//        if (cv::imwrite([pano UTF8String],dsc)) {
-//            handler(true,@"",nil,basePOV,list);
-//        }else{
+        if (cv::imwrite([pano UTF8String],dsc)) {
+            handler(true,@"",nil,basePOV,list);
+        }else{
             UIImage *image = [self UIImageFromCVMat:dsc changeColor:true];
                 //        UIImage *image2 = [self UIImageFromCVMat:dsc changeColor:false];
             NSLog(@"image:%@",image);
@@ -371,7 +371,7 @@ bool YV12ToBGR24_OpenCV(unsigned char* pYUV,unsigned char* pBGR24,int width,int 
                 
             }
             handler(true,@"",image,basePOV,list);
-//        }
+        }
 
         
     }else{
