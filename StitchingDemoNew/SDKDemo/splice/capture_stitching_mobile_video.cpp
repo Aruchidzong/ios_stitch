@@ -58,9 +58,11 @@ static bool isInited = false;
 
 cv::detail::ImageFeatures src_feature;
 std::vector<cv::detail::ImageFeatures> src_featureVec;
+//用于stitching.detail 类内的特征匹配
+//其中 特征描述子用的是Umat 格式
 
 cv::Point3d target_Angle;
-std::vector<cv::Point3d> targetAngleVecs; //zt
+std::vector<cv::Point3d> targetAngleVecs; //张田
 
 typedef struct
 {
@@ -78,18 +80,19 @@ std::vector <AngleImg> g_angleImg;
 ofstream output_file;
 std::string g_strLogPath;
 
-//zongyue
+//todo zongyue
 list<cv::Point2f> origin_keypoints; //只是一个list存储所有的初始点
 list< cv::Point2f > keypoints;      // 因为要删除跟踪失败的点，使用list
 
 cv::Mat templateImg;
 cv::Mat H_last_ = Mat::eye(3,3,CV_64FC1);
 Mat H_optflow_ = Mat::eye(3,3,CV_64FC1);
-int Max_origin_Size = 100;
 
-#define Rsize_scale 0.25
+int Max_origin_Size = 500;
+
+#define Rsize_scale 0.4
 #define Trans_rate 0.75
-#define Max_origin_  100
+#define Max_origin_  500
 #define Detail_Max_  60
 #define Resize_gool 500.
 
@@ -124,7 +127,7 @@ inline void resize_output(Mat &frame,vector<Point>& dst_pt);
 
 bool Check_Area_Correct(vector<Point2f>dst_pnts,cv::Mat &dst);
 
-float rad(float x){
+inline float rad(float x){
     return x * CV_PI / 180;
 }
 
@@ -145,7 +148,6 @@ float getSideVec(const Point2f &p1, const Point2f &p2, const Point2f & p3)
 
 //删除最后一张图片返回倒数第二次的拼接图
 void IdtRetry(cv::Mat & pano){
-
     if (g_panoVec.size() > 0) {
         g_angleImg.pop_back();
         g_panoVec.pop_back();
@@ -181,7 +183,6 @@ void IdtRetry(cv::Mat & pano){
         if(targetAngleVecs.size() > 0)
             target_Angle = targetAngleVecs[targetAngleVecs.size() - 1];
     }
-
 }
 
 bool IdtStitchInit(const std::string &strLogPath)
@@ -1179,7 +1180,7 @@ void IdtStitchClean()
 Mat resize_input(Mat &frame){
     Mat output;
 //    float scale = Rsize_scale;
-    float scale = 0.25;
+    float scale = Rsize_scale;
 //    scale = Resize_gool/frame.cols;
     resize(frame,output,Size(),scale,scale,INTER_LINEAR);
     return output;
@@ -1187,7 +1188,7 @@ Mat resize_input(Mat &frame){
 
 void resize_output(Mat &frame,vector<Point>& dst_pt){
 
-    float scale = 4;
+    float scale = 1./Rsize_scale;
     for (int i = 0; i < 4; ++i) {
         dst_pt[i] =dst_pt[i]*scale;
     }

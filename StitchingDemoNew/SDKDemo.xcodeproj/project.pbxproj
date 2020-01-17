@@ -38,17 +38,17 @@
 		A3EA4E4C21AA8D100001438A /* StitchManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = A3EA4E4B21AA8D100001438A /* StitchManager.mm */; };
 		A3EA4E5121AA9CD80001438A /* PoseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A3EA4E5021AA9CD80001438A /* PoseManager.m */; };
 		A3EA4E5321AA9DB50001438A /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3EA4E5221AA9DB50001438A /* CoreMotion.framework */; };
+		ACAD0EEE23CF11FD004F3A55 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACAD0EED23CF11FD004F3A55 /* OpenGLES.framework */; };
+		ACAD0EF023CF1208004F3A55 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACAD0EEF23CF1208004F3A55 /* Metal.framework */; };
 		C33AEE2E22851B9900EC07AC /* CameraViewController_video.m in Sources */ = {isa = PBXBuildFile; fileRef = C33AEE2C22851B9900EC07AC /* CameraViewController_video.m */; };
 		C33AEE3122851BDE00EC07AC /* StitchManager_video.mm in Sources */ = {isa = PBXBuildFile; fileRef = C33AEE3022851BDE00EC07AC /* StitchManager_video.mm */; };
 		C386B27C228523C600E0FC18 /* MainVideo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C386B27B228523C600E0FC18 /* MainVideo.storyboard */; };
 		C38C97E323CD9FA40091FA0F /* UIImage+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = C38C97E223CD9FA40091FA0F /* UIImage+Ext.m */; };
 		C38C97E423CD9FAB0091FA0F /* UIImage+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = C38C97E223CD9FA40091FA0F /* UIImage+Ext.m */; };
-		C39C9E9A22BA17020051D260 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; };
+		C39C9E9A22BA17020051D260 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		C39C9E9B22BA17020051D260 /* opencv2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C39C9E9C22BA17090051D260 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; };
 		C39C9E9D22BA17090051D260 /* opencv2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C3AFE48322B9E17C00485ED9 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; };
-		C3AFE48422B9E17C00485ED9 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3AFE48222B9E17C00485ED9 /* opencv2.framework */; };
 		C3F05C732284435500540825 /* SettingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D60A8421ACC0E4007E77CA /* SettingManager.m */; };
 		C3F05C742284435500540825 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A3439E3221A2EE72002CC5B7 /* main.m */; };
 		C3F05C762284435500540825 /* PoseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A3EA4E5021AA9CD80001438A /* PoseManager.m */; };
@@ -157,6 +157,8 @@
 		A3EA4E4F21AA9CD80001438A /* PoseManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PoseManager.h; sourceTree = "<group>"; };
 		A3EA4E5021AA9CD80001438A /* PoseManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PoseManager.m; sourceTree = "<group>"; };
 		A3EA4E5221AA9DB50001438A /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		ACAD0EED23CF11FD004F3A55 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		ACAD0EEF23CF1208004F3A55 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		B36CEA52ABADA30C9C4C8D08 /* Pods-SDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SDKDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-SDKDemo/Pods-SDKDemo.release.xcconfig"; sourceTree = "<group>"; };
 		C33AEE2C22851B9900EC07AC /* CameraViewController_video.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController_video.m; sourceTree = "<group>"; };
 		C33AEE2D22851B9900EC07AC /* CameraViewController_video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController_video.h; sourceTree = "<group>"; };
@@ -192,7 +194,6 @@
 				A3D60BF521AE7FA1007E77CA /* AssetsLibrary.framework in Frameworks */,
 				A3D60BF321AE7F9A007E77CA /* Accelerate.framework in Frameworks */,
 				A3D60BF121AE7CB5007E77CA /* libc++.tbd in Frameworks */,
-				C39C9E9C22BA17090051D260 /* opencv2.framework in Frameworks */,
 				A3D60BE921AE73BD007E77CA /* AVFoundation.framework in Frameworks */,
 				A3EA4E5321AA9DB50001438A /* CoreMotion.framework in Frameworks */,
 				A3EA4E4621A95F7F0001438A /* FLAnimatedImage.framework in Frameworks */,
@@ -205,6 +206,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACAD0EF023CF1208004F3A55 /* Metal.framework in Frameworks */,
+				ACAD0EEE23CF11FD004F3A55 /* OpenGLES.framework in Frameworks */,
 				C3F05C7F2284435500540825 /* CoreFoundation.framework in Frameworks */,
 				C3F05C802284435500540825 /* Foundation.framework in Frameworks */,
 				C3F05C812284435500540825 /* UIKit.framework in Frameworks */,
@@ -218,7 +221,6 @@
 				C3F05C882284435500540825 /* Accelerate.framework in Frameworks */,
 				C3F05C8A2284435500540825 /* libc++.tbd in Frameworks */,
 				C3F05C8B2284435500540825 /* AVFoundation.framework in Frameworks */,
-				C3AFE48422B9E17C00485ED9 /* opencv2.framework in Frameworks */,
 				C3F05C8C2284435500540825 /* CoreMotion.framework in Frameworks */,
 				C3F05C8D2284435500540825 /* FLAnimatedImage.framework in Frameworks */,
 				C3F05C8E2284435500540825 /* NYTPhotoViewer.framework in Frameworks */,
@@ -309,6 +311,8 @@
 		A3EA4E2821A932290001438A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ACAD0EEF23CF1208004F3A55 /* Metal.framework */,
+				ACAD0EED23CF11FD004F3A55 /* OpenGLES.framework */,
 				C3AFE48222B9E17C00485ED9 /* opencv2.framework */,
 				A3D60C0421AE7FE1007E77CA /* CoreFoundation.framework */,
 				A3D60C0221AE7FDB007E77CA /* Foundation.framework */,
@@ -424,7 +428,7 @@
 		A3439E1821A2EE71002CC5B7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = KandaoVR;
 				TargetAttributes = {
 					A3439E1F21A2EE71002CC5B7 = {

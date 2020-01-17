@@ -25,7 +25,6 @@
     self.title = @"图片分辨率";
     self.options = SettingManager.sharedInstance.qualityOptions;
     self.selected = SettingManager.sharedInstance.quality;
-    
     self.tableView.tableFooterView = [[UIView alloc] init];
 }
 

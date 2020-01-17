@@ -7,7 +7,7 @@
 //
 
 #import "CameraViewController_video.h"
-@import Toast;
+//@import Toast;
 #import <AVFoundation/AVFoundation.h>
 #import <NYTPhotoViewer/NYTPhotoViewer.h>
 #import "SDKPhoto.h"
@@ -664,9 +664,9 @@
     self.tostLabel.hidden = true;
 }
 -(void)showError:(NSString*)message{
-    [self.view makeToast:message
-                duration:3
-                position:CSToastPositionCenter];
+//    [self.view makeToast:message
+//                duration:3
+//                position:CSToastPositionCenter];
 }
 
 @end
